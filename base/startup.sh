@@ -48,7 +48,8 @@ test $? -ne 0 && {
   --url "${registration_url}" \
   --unattended \
   --replace \
-  --ephemeral
+  --ephemeral \
+  --disableupdate
 
 trap 'remove_runner; exit 130' SIGINT
 trap 'remove_runner; exit 143' SIGTERM
