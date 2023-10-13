@@ -13,11 +13,11 @@ if [[ "$NEW_VERSION" != "$CURRENT_VERSION" ]]; then
     docker build -t ct-itmo/gh-runner-base:$NEW_VERSION --build-arg VERSION=$NEW_VERSION $SCRIPT_DIR
 
     for folder in $(ls $PARENT_DIR); do
-        if [[ "$folder" == "$SELF_DIR" || "$folder" =~ ^_ ]]; then
+        if [[ "$folder" == "$SELF_DIR" || "$folder" =~ ^_ || ! -d "$PARENT_DIR/$folder" ]]; then
             continue
         fi
 
-        echo "Try $folder"
+        echo "Building $folder"
 
         docker build -t ct-itmo/gh-runner-$folder:$NEW_VERSION --build-arg VERSION=$NEW_VERSION $PARENT_DIR/$folder
     done
