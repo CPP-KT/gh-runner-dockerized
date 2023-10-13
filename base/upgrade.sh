@@ -20,6 +20,7 @@ if [[ "$NEW_VERSION" != "$CURRENT_VERSION" ]]; then
         echo "Building $folder"
 
         docker build -t ct-itmo/gh-runner-$folder:$NEW_VERSION --build-arg VERSION=$NEW_VERSION $PARENT_DIR/$folder
+        echo $NEW_VERSION > $PARENT_DIR/$folder/runner-version
     done
 else
     echo "No upgrade needed."
