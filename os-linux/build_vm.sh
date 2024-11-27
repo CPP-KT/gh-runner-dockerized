@@ -82,6 +82,24 @@ echo -e '/dev/sdb\t/place\text4\tdiscard,errors=remount-ro\t0 1' >> $UBUNTU_PATH
 
 # Add test code
 cat > $UBUNTU_PATH/root/.bashrc << EOF
+function retry {
+  local retries=\$1
+  shift
+
+  local count=0
+  until "\$@"; do
+    exit=\$?
+    wait=\$((2 ** \$count))
+    if [[ \$count -lt \$retries ]]; then
+      sleep \$wait
+    else
+      echo "Command exited with code \$exit, no more retries left."
+      return \$exit
+    fi
+  done
+  return 0
+}
+
 echo -n "Command line: "
 cat /proc/cmdline
 dmesg -W &
@@ -92,9 +110,16 @@ if [[ \$debug -eq 0 ]]; then
     set -x
 fi
 
-cd /place
-./networkfs_test \$(xargs -n1 -a /proc/cmdline | grep gtest_args | tail -c +12)
-echo "networkfs_test exited with code \$?"
+if retry 5 curl -fsS http://nerc.itmo.ru/teaching/os/networkfs/check; then
+    cd /place
+    ./networkfs_test \$(xargs -n1 -a /proc/cmdline | grep gtest_args | tail -c +12)
+    echo "networkfs_test exited with code \$?"
+else
+    echo "Try to restart the tests or report this issue to your teacher."
+    echo "Debug information:"
+    ip a
+    resolvectl status
+fi
 
 if [[ \$debug -eq 0 ]]; then
     poweroff
