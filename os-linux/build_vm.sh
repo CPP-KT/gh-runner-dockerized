@@ -91,6 +91,7 @@ function retry {
     exit=\$?
     wait=\$((2 ** \$count))
     if [[ \$count -lt \$retries ]]; then
+      count=\$((count + 1))
       sleep \$wait
     else
       echo "Command exited with code \$exit, no more retries left."
