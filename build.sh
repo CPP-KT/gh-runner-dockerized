@@ -22,3 +22,4 @@ for compiler in "${ALL_COMPILERS[@]}"; do
 done
 
 echo "$NEW_VERSION" > "$CURRENT_VERSION_FILE"
+docker image prune -f
