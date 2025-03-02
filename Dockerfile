@@ -1,7 +1,7 @@
 ARG COMPILER
-ARG VERSION
-
 FROM ghcr.io/cpp-kt/ubuntu:${COMPILER}
+
+ARG VERSION
 
 ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /runner
