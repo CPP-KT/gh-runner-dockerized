@@ -1,15 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eu
 
 echo "Starting supervisor (Docker)"
 sudo service docker start
 
-if [ -n "${GITHUB_REPOSITORY}" ]; then
-  auth_url="https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPOSITORY}/actions/runners/registration-token"
-  registration_url="https://github.com/${GITHUB_OWNER}/${GITHUB_REPOSITORY}"
-else
-  auth_url="https://api.github.com/orgs/${GITHUB_OWNER}/actions/runners/registration-token"
-  registration_url="https://github.com/${GITHUB_OWNER}"
-fi
+auth_url="https://api.github.com/orgs/${GITHUB_OWNER}/actions/runners/registration-token"
+registration_url="https://github.com/${GITHUB_OWNER}"
 
 generate_token() {
   local payload
@@ -31,8 +27,7 @@ remove_runner() {
 }
 
 service docker status
-runner_id=${RUNNER_NAME}_$(openssl rand -hex 6)
-echo "Registering runner ${runner_id}"
+echo "Registering runner ${RUNNER_ID}"
 
 RUNNER_TOKEN=$(generate_token)
 test $? -ne 0 && {
@@ -42,7 +37,7 @@ test $? -ne 0 && {
 }
 
 ./config.sh \
-  --name "${runner_id}" \
+  --name "${RUNNER_ID}" \
   --labels "${RUNNER_LABELS}" \
   --token "${RUNNER_TOKEN}" \
   --url "${registration_url}" \
@@ -55,4 +50,3 @@ trap 'remove_runner; exit 130' SIGINT
 trap 'remove_runner; exit 143' SIGTERM
 
 ./run.sh "$*"
-

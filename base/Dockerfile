@@ -1,5 +1,5 @@
-ARG COMPILER
-FROM ghcr.io/cpp-kt/ubuntu:${COMPILER}
+ARG CPP_COMPILER
+FROM ghcr.io/cpp-kt/ubuntu:${CPP_COMPILER}
 
 ARG RUNNER_VERSION
 
