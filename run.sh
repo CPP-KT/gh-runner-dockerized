@@ -10,7 +10,10 @@ while true; do
     echo "Kill-switch detected, Docker won't be restarted"
   fi
 
-  docker run --runtime sysbox-runc --name=$name --rm --env-file=.env "cpp-kt/gh-runner-ubuntu:$(cat .runner-version)-${compiler}"
+  docker run --runtime sysbox-runc --name=$name --rm \
+    --env-file=.env -e "RUNNER_LABELS=ubuntu,$compiler" \
+    "cpp-kt/gh-runner-ubuntu:$(cat .runner-version)-${compiler}"
+
   if [[ -f .kill-docker ]]; then
     echo "Kill-switch detected, exiting"
     break
