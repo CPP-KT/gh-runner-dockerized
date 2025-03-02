@@ -4,7 +4,7 @@ set -eu
 SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
 
 CPP_COMPILER=${1:?"Missing CPP_COMPILER"}
-STACK_RESOLVER=${1:?"Missing STACK_RESOLVER"}
+STACK_RESOLVER=${2:?"Missing STACK_RESOLVER"}
 
 docker build "$SCRIPT_DIR" \
     -t "cpp-kt/gh-runner-ubuntu:$CPP_COMPILER-ghc" \
