@@ -1,5 +1,7 @@
 #!/bin/bash
-name=${1:-runner}
+
+name=${1:?}
+
 while true; do
   echo "Starting Docker"
   if [[ -f .kill-docker ]]; then
@@ -7,7 +9,7 @@ while true; do
     echo "Kill-switch detected, Docker won't be restarted"
   fi
 
-  docker run --runtime sysbox-runc --name=$name --rm --env-file=.env ct-itmo/gh-runner-os:$(cat runner-version)
+  docker run --runtime sysbox-runc --name=$name --rm --env-file=.env ct-itmo/gh-runner-ubuntu:$(cat runner-version)
   if [[ -f .kill-docker ]]; then
     echo "Kill-switch detected, exiting"
     break
