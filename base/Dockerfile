@@ -7,7 +7,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /runner
 
 RUN set -eu; \
-    apt-get update && apt-get install -y curl jq sudo unzip wget zip git libicu74 libssl3t64 liblttng-ust1t64; \
+    apt-get update; \
+    apt-get install -y curl jq sudo unzip wget zip git nasm libicu74 libssl3t64 liblttng-ust1t64; \
     rm -rf /var/lib/apt/lists/*; \
     curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh; \
     useradd -m runner && usermod -aG docker runner; \
