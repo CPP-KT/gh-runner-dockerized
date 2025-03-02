@@ -1,7 +1,7 @@
 ARG COMPILER
 FROM ghcr.io/cpp-kt/ubuntu:${COMPILER}
 
-ARG VERSION
+ARG RUNNER_VERSION
 
 ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /runner
@@ -11,7 +11,8 @@ RUN set -eu; \
     rm -rf /var/lib/apt/lists/*; \
     curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh; \
     useradd -m runner && usermod -aG docker runner; \
-    curl -Ls -o runner.tar.gz https://github.com/actions/runner/releases/download/v${VERSION}/actions-runner-linux-x64-${VERSION}.tar.gz; \
+    curl -Ls -o runner.tar.gz \
+        https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz; \
     tar xzf ./runner.tar.gz; \
     rm runner.tar.gz; \
     curl -Ls -o /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64; \
