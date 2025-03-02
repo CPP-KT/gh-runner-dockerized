@@ -23,6 +23,8 @@ RUN set -eu; \
 COPY startup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/startup.sh
 
+LABEL gh.labels="ubuntu,${CPP_COMPILER}"
+
 USER runner
 
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]

@@ -7,3 +7,5 @@ RUN set -eu; \
     sudo apt-get update && sudo apt-get install -y haskell-stack; \
     sudo rm -rf /var/lib/apt/lists/*; \
     stack --resolver $STACK_RESOLVER setup
+
+LABEL gh.labels="ubuntu,${CPP_COMPILER},ghc"
