@@ -1,5 +1,4 @@
 ARG VERSION
-ARG COMPILER
 
 FROM ct-itmo/gh-runner-base:$VERSION
 
