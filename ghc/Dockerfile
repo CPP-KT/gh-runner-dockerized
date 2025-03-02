@@ -8,4 +8,5 @@ RUN set -eu; \
     sudo rm -rf /var/lib/apt/lists/*; \
     stack --resolver $STACK_RESOLVER setup
 
+ARG CPP_COMPILER
 LABEL gh.labels="ubuntu,${CPP_COMPILER},ghc"
