@@ -24,7 +24,7 @@ COPY startup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/startup.sh
 
 ARG CPP_COMPILER
-LABEL gh.labels="ubuntu,${CPP_COMPILER}"
+LABEL gh.labels="ubuntu,${CPP_COMPILER},base"
 
 USER runner
 
