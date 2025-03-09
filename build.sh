@@ -11,13 +11,14 @@ if [[ -f "$CURRENT_VERSION_FILE" && "$NEW_VERSION" == $(cat "$CURRENT_VERSION_FI
     exit 0
 fi
 
-ALL_COMPILERS=(gcc-14 clang-19)
+CPP_COMPILERS=(gcc-14 clang-19 clang-18)
+CPP_COMPILERS_FOR_GHC=(gcc-14 clang-19)
 
-for compiler in "${ALL_COMPILERS[@]}"; do
+for compiler in "${CPP_COMPILERS[@]}"; do
     "$SCRIPT_DIR"/base/build.sh "$NEW_VERSION" "$compiler"
 done
 
-for compiler in "${ALL_COMPILERS[@]}"; do
+for compiler in "${CPP_COMPILERS_FOR_GHC[@]}"; do
     "$SCRIPT_DIR"/ghc/build.sh "$compiler" lts-18.28
 done
 
