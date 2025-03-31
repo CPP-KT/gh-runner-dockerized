@@ -7,6 +7,7 @@ RUNNER_VERSION=${1:?"Missing RUNNER_VERSION"}
 CPP_COMPILER=${2:?"Missing CPP_COMPILER"}
 
 docker build "$SCRIPT_DIR" \
-    -t "cpp-kt/gh-runner-ubuntu:$CPP_COMPILER" \
+    --pull \
+    --tag "cpp-kt/gh-runner-ubuntu:$CPP_COMPILER" \
     --build-arg "CPP_COMPILER=$CPP_COMPILER" \
     --build-arg "RUNNER_VERSION=$RUNNER_VERSION"

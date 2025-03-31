@@ -11,7 +11,7 @@ if [[ -f "$CURRENT_VERSION_FILE" && "$NEW_VERSION" == $(cat "$CURRENT_VERSION_FI
     exit 0
 fi
 
-CPP_COMPILERS=(gcc-14 clang-19 clang-18)
+CPP_COMPILERS=(gcc-14 clang-19 clang-20)
 CPP_COMPILERS_FOR_GHC=(gcc-14 clang-19)
 
 for compiler in "${CPP_COMPILERS[@]}"; do
