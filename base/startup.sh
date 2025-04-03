@@ -49,4 +49,4 @@ test $? -ne 0 && {
 trap 'remove_runner; exit 130' SIGINT
 trap 'remove_runner; exit 143' SIGTERM
 
-./run.sh "$*"
+env -u GITHUB_PERSONAL_TOKEN ./run.sh "$*"
