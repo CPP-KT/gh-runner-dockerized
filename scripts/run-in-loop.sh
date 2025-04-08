@@ -20,5 +20,7 @@ while true; do
         --env "RUNNER_ID=$RUNNER_ID" \
         --env "RUNNER_LABELS=$LABELS" \
         --env-file "$SCRIPT_DIR/.env" \
+        --memory=1.5G \
+        --cpus=1 \
         "$DOCKER_IMAGE"
 done
