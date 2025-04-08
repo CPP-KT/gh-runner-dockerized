@@ -23,6 +23,10 @@ RUN set -eu; \
 COPY startup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/startup.sh
 
+COPY export_ccache.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/export_ccache.sh
+ENV ACTIONS_RUNNER_HOOK_JOB_STARTED=/usr/local/bin/export_ccache.sh
+
 ARG CPP_COMPILER
 LABEL gh.labels="ubuntu,${CPP_COMPILER},base"
 
