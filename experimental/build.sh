@@ -9,6 +9,6 @@ runner_version=$(curl -s "https://api.github.com/repos/actions/runner/releases/l
 
 docker build "${SCRIPT_DIR}" \
     --pull \
-    --tag "cpp-kt/gh-runner-ubuntu-exp:${cpp_compiler}" \
+    --tag "cpp-kt/gh-runner-ubuntu:${cpp_compiler}-exp" \
     --build-arg "CPP_COMPILER=${cpp_compiler}" \
     --build-arg "RUNNER_VERSION=${runner_version}"
