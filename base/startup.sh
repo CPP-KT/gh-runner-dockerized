@@ -29,17 +29,17 @@ remove_runner() {
 service docker status
 echo "Registering runner ${RUNNER_ID}"
 
-RUNNER_TOKEN=$(generate_token)
+runner_token=$(generate_token)
 test $? -ne 0 && {
   echo "Debugging token"
-  echo "${RUNNER_TOKEN}"
+  echo "${runner_token}"
   exit 1
 }
 
 ./config.sh \
   --name "${RUNNER_ID}" \
   --labels "${RUNNER_LABELS}" \
-  --token "${RUNNER_TOKEN}" \
+  --token "${runner_token}" \
   --url "${registration_url}" \
   --unattended \
   --replace \

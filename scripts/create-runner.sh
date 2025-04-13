@@ -3,11 +3,11 @@ set -eu
 
 SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
 
-IMAGE_TAG="${1:?"Missing IMAGE_TAG"}"
-NAME_PREFIX="${2:-gh-runner-ubuntu}"
+image_tag="${1:?"Missing image tag"}"
+name_prefix="${2:-gh-runner-ubuntu}"
 
-RUNNER_ID="${NAME_PREFIX}-${IMAGE_TAG}_$(openssl rand -hex 6)"
+runner_id="${name_prefix}-${image_tag}_$(openssl rand -hex 6)"
 
-echo "Starting $RUNNER_ID, use 'screen -r $RUNNER_ID' to attach"
+echo "Starting ${runner_id}, use 'screen -r ${runner_id}' to attach"
 
-screen -S "$RUNNER_ID" -dm "$SCRIPT_DIR/run-in-loop.sh" "$IMAGE_TAG" "$RUNNER_ID"
+screen -S "${runner_id}" -dm "${SCRIPT_DIR}/run-in-loop.sh" "${image_tag}" "${runner_id}"

@@ -3,24 +3,24 @@ set -eu
 
 SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
 
-CURRENT_VERSION_FILE="$SCRIPT_DIR/.runner-version"
-NEW_VERSION=$(curl -s "https://api.github.com/repos/actions/runner/releases/latest" | jq --raw-output '.tag_name' | tr -d v)
+current_version_file="${SCRIPT_DIR}/.runner-version"
+new_version=$(curl -s "https://api.github.com/repos/actions/runner/releases/latest" | jq --raw-output '.tag_name' | tr -d v)
 
-if [[ -f "$CURRENT_VERSION_FILE" && "$NEW_VERSION" == $(cat "$CURRENT_VERSION_FILE") ]]; then
+if [[ -f "${current_version_file}" && "${new_version}" == $(cat "${current_version_file}") ]]; then
     echo "No upgrade needed."
     exit 0
 fi
 
-CPP_COMPILERS=(gcc-14 clang-19 clang-20)
-CPP_COMPILERS_FOR_GHC=(gcc-14 clang-19)
+cpp_compilers=(gcc-14 clang-19)
+cpp_compilers_for_ghc=(gcc-14)
 
-for compiler in "${CPP_COMPILERS[@]}"; do
-    "$SCRIPT_DIR"/base/build.sh "$NEW_VERSION" "$compiler"
+for compiler in "${cpp_compilers[@]}"; do
+    "${SCRIPT_DIR}"/base/build.sh "${new_version}" "${compiler}"
 done
 
-for compiler in "${CPP_COMPILERS_FOR_GHC[@]}"; do
-    "$SCRIPT_DIR"/ghc/build.sh "$compiler" lts-18.28
+for compiler in "${cpp_compilers_for_ghc[@]}"; do
+    "${SCRIPT_DIR}"/ghc/build.sh "${compiler}" lts-18.28
 done
 
-echo "$NEW_VERSION" > "$CURRENT_VERSION_FILE"
+echo "${new_version}" > "${current_version_file}"
 docker image prune -f

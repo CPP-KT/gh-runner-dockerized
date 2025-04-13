@@ -2,11 +2,12 @@
 set -eu
 
 SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
-IMAGE_TAG=${1:?"Missing IMAGE_TAG"}
-RUNNER_ID=${2:?"Missing RUNNER_ID"}
 
-DOCKER_IMAGE="cpp-kt/gh-runner-ubuntu:$IMAGE_TAG"
-LABELS="$IMAGE_TAG,$(docker inspect --format '{{ index .Config.Labels "gh.labels"}}' "$DOCKER_IMAGE")"
+image_tag=${1:?"Missing image tag"}
+runner_id=${2:?"Missing runner id"}
+
+docker_image="cpp-kt/gh-runner-ubuntu:${image_tag}"
+labels="${image_tag},$(docker inspect --format '{{ index .Config.Labels "gh.labels"}}' "${docker_image}")"
 
 while true; do
     echo "Starting Docker"
@@ -15,12 +16,12 @@ while true; do
         echo "Kill-switch detected, Docker won't be restarted"
     fi
 
-    docker run --rm --name="$RUNNER_ID" \
+    docker run --rm --name="${runner_id}" \
         --runtime sysbox-runc \
-        --env "RUNNER_ID=$RUNNER_ID" \
-        --env "RUNNER_LABELS=$LABELS" \
-        --env-file "$SCRIPT_DIR/.env" \
+        --env "RUNNER_ID=${runner_id}" \
+        --env "RUNNER_LABELS=${labels}" \
+        --env-file "${SCRIPT_DIR}/.env" \
         --memory=1.5G \
         --cpus=1 \
-        "$DOCKER_IMAGE"
+        "${docker_image}"
 done
