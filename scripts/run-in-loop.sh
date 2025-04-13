@@ -9,6 +9,10 @@ runner_id=${2:?"Missing runner id"}
 docker_image="cpp-kt/gh-runner-ubuntu:${image_tag}"
 labels="${image_tag},$(docker inspect --format '{{ index .Config.Labels "gh.labels"}}' "${docker_image}")"
 
+source "${SCRIPT_DIR}/.env"
+memory_limit="${RUNNER_MEMORY_LIMIT}"
+cpu_limit="${RUNNER_CPU_LIMIT}"
+
 while true; do
     echo "Starting Docker"
     if [[ -f .kill-docker ]]; then
@@ -21,7 +25,7 @@ while true; do
         --env "RUNNER_ID=${runner_id}" \
         --env "RUNNER_LABELS=${labels}" \
         --env-file "${SCRIPT_DIR}/.env" \
-        --memory=1.5G \
-        --cpus=1 \
+        --memory=${memory_limit} \
+        --cpus=${cpu_limit} \
         "${docker_image}"
 done
