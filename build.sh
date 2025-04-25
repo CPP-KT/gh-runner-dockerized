@@ -22,5 +22,7 @@ for compiler in "${cpp_compilers_for_ghc[@]}"; do
     "${SCRIPT_DIR}"/ghc/build.sh "${compiler}" lts-18.28
 done
 
+"${SCRIPT_DIR}"/awaiter/build.sh "${new_version}"
+
 echo "${new_version}" > "${current_version_file}"
 docker image prune -f
