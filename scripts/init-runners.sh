@@ -9,6 +9,7 @@ runners=(
     gcc-14 gcc-14 gcc-14
     clang-19 clang-19 clang-19
     gcc-14-ghc
+    awaiter awaiter awaiter awaiter
 )
 
 for runner in "${runners[@]}"; do
